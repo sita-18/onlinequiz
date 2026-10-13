@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #74ebd5, #9face6);
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.container {
+    background: white;
+    width: 100%;
+    max-width: 600px;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+h1 {
+    color: #5145cd;
+}
+
+h2 {
+    color: #333;
+}
+
+input {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    margin: 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 7px;
+    font-size: 16px;
+}
+
+button {
+    background: #5145cd;
+    color: white;
+    border: none;
+    padding: 12px 18px;
+    margin: 6px;
+    border-radius: 7px;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+button:hover {
+    background: #372ca5;
+}
+
+.option {
+    display: block;
+    text-align: left;
+    background: #f2f2f2;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 7px;
+    cursor: pointer;
+}
+
+.option:hover {
+    background: #e2e0ff;
+}
+
+.option input {
+    display: inline-block;
+    width: auto;
+    margin: 0 10px 0 0;
+}
+
+.buttons {
+    margin-top: 20px;
+}
+
+.hidden {
+    display: none;
+}
+
+.hint {
+    color: #666;
+    font-size: 13px;
+}
+
+#loginMessage {
+    margin-top: 15px;
+}
+
+#score, #highestScore {
+    font-size: 18px;
+    font-weight: bold;
+}

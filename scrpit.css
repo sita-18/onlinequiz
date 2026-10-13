@@ -1,0 +1,140 @@
+// Check whether the user is logged in
+if (!sessionStorage.getItem("quizUser")) {
+    window.location.href = "index.html";
+}
+
+const username = sessionStorage.getItem("quizUser");
+
+document.getElementById("welcome").textContent =
+    "Welcome, " + username + "!";
+
+const questions = [
+    {
+        question: "1. Which language is used to create web pages?",
+        options: ["Python", "HTML", "C", "Java"],
+        answer: 1
+    },
+    {
+        question: "2. Which language is used to style web pages?",
+        options: ["CSS", "C++", "Python", "SQL"],
+        answer: 0
+    },
+    {
+        question: "3. Which language adds interactivity to web pages?",
+        options: ["HTML", "CSS", "JavaScript", "C"],
+        answer: 2
+    },
+    {
+        question: "4. Which keyword declares a constant in JavaScript?",
+        options: ["var", "let", "const", "static"],
+        answer: 2
+    },
+    {
+        question: "5. Which storage keeps data in the browser after it closes?",
+        options: ["Local Storage", "Temporary variable", "Loop", "Function"],
+        answer: 0
+    }
+];
+
+let currentQuestion = 0;
+let userAnswers = new Array(questions.length).fill(null);
+
+function displayQuestion() {
+    const q = questions[currentQuestion];
+
+    document.getElementById("question").textContent = q.question;
+
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    q.options.forEach(function(option, index) {
+        const label = document.createElement("label");
+        label.className = "option";
+
+        const radio = document.createElement("input");
+        radio.type = "radio";
+        radio.name = "answer";
+        radio.value = index;
+        radio.checked = userAnswers[currentQuestion] === index;
+
+        radio.addEventListener("change", function() {
+            userAnswers[currentQuestion] = index;
+        });
+
+        label.appendChild(radio);
+        label.appendChild(document.createTextNode(option));
+        optionsDiv.appendChild(label);
+    });
+
+    document.getElementById("previousBtn").disabled =
+        currentQuestion === 0;
+
+    document.getElementById("nextBtn").disabled =
+        currentQuestion === questions.length - 1;
+}
+
+document.getElementById("previousBtn").addEventListener("click", function() {
+    if (currentQuestion > 0) {
+        currentQuestion--;
+        displayQuestion();
+    }
+});
+
+document.getElementById("nextBtn").addEventListener("click", function() {
+    if (currentQuestion < questions.length - 1) {
+        currentQuestion++;
+        displayQuestion();
+    }
+});
+
+document.getElementById("submitBtn").addEventListener("click", function() {
+    const confirmed = confirm("Are you sure you want to submit the quiz?");
+
+    if (confirmed) {
+        calculateScore();
+    }
+});
+
+function calculateScore() {
+    let score = 0;
+
+    questions.forEach(function(q, index) {
+        if (userAnswers[index] === q.answer) {
+            score++;
+        }
+    });
+
+    const previousHighest = Number(
+        localStorage.getItem("highestScore") || 0
+    );
+
+    const highest = Math.max(score, previousHighest);
+
+    localStorage.setItem("highestScore", highest);
+
+    document.getElementById("quizBox").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    document.getElementById("score").textContent =
+        "Your Score: " + score + " / " + questions.length;
+
+    document.getElementById("highestScore").textContent =
+        "Highest Score: " + highest + " / " + questions.length;
+}
+
+function restartQuiz() {
+    currentQuestion = 0;
+    userAnswers = new Array(questions.length).fill(null);
+
+    document.getElementById("result").classList.add("hidden");
+    document.getElementById("quizBox").classList.remove("hidden");
+
+    displayQuestion();
+}
+
+function logout() {
+    sessionStorage.removeItem("quizUser");
+    window.location.href = "index.html";
+}
+
+displayQuestion();
